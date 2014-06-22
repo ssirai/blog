@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>גולם壱佰</title><link href="http://ssirai.github.io/blog/" rel="alternate"></link><link href="http://ssirai.github.io/blog/feeds/all.atom.xml" rel="self"></link><id>http://ssirai.github.io/blog/</id><updated>2014-06-22T21:00:00Z</updated><entry><title>pelican でブログを作る</title><link href="http://ssirai.github.io/blog/posts/2014/06/22/my-blog-post-using-pelican/" rel="alternate"></link><updated>2014-06-22T21:00:00Z</updated><author><name>ssirai</name></author><id>tag:ssirai.github.io/blog,2014-06-22:posts/2014/06/22/my-blog-post-using-pelican/</id><summary type="html">&lt;p&gt;pelican でブログ作っているので手短にやったことを書く。このポスト自体が pelican のテストなのであまりちゃんと解説書く気ないですスイマセン。&lt;/p&gt;
+&lt;h2&gt;インストール&lt;/h2&gt;
+&lt;p&gt;まず github でリポジトリを作り &lt;code&gt;gh-pages&lt;/code&gt; ブランチを作る。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;git clone https://github.com/&lt;span class="o"&gt;{&lt;/span&gt;username&lt;span class="o"&gt;}&lt;/span&gt;/blog.git
+&lt;span class="nv"&gt;$ &lt;/span&gt;&lt;span class="nb"&gt;cd &lt;/span&gt;blog
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;python 3.x のサポートが微妙なので（Fabric がインストールできない） 2.7 に切り替える。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;pyenv &lt;span class="nb"&gt;local &lt;/span&gt;2.7.6
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;必要なものをインストール。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;pip install pelican
+&lt;span class="nv"&gt;$ &lt;/span&gt;pip install Fabric
+&lt;span class="nv"&gt;$ &lt;/span&gt;pip install Markdown
+&lt;span class="nv"&gt;$ &lt;/span&gt;pip install ghp-import
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;pelican-quickstart&lt;/code&gt; して適当に質問に答えると色々ファイルが生成される。&lt;/p&gt;
+&lt;h2&gt;日記を書く&lt;/h2&gt;
+&lt;p&gt;&lt;code&gt;content&lt;/code&gt; 以下に Markdown 形式で日記を書く。書式は以下からコピペして書き換える。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="http://docs.getpelican.com/en/3.3.0/getting_started.html#kickstart-your-site"&gt;Getting started — Pelican 3.3.0 documentation&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;Title&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;My&lt;/span&gt; &lt;span class="kd"&gt;super&lt;/span&gt; &lt;span class="n"&gt;title&lt;/span&gt;
+&lt;span class="n"&gt;Date&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;2010&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;12&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;03&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;&lt;span class="mi"&gt;20&lt;/span&gt;
+&lt;span class="n"&gt;Category&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Python&lt;/span&gt;
+&lt;span class="n"&gt;Tags&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;pelican&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="n"&gt;publishing&lt;/span&gt;
+&lt;span class="n"&gt;Slug&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;my&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="kd"&gt;super&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;post&lt;/span&gt;
+&lt;span class="n"&gt;Author&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Alexis&lt;/span&gt; &lt;span class="n"&gt;Metaireau&lt;/span&gt;
+&lt;span class="n"&gt;Summary&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;Short&lt;/span&gt; &lt;span class="n"&gt;version&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;index&lt;/span&gt; &lt;span class="n"&gt;and&lt;/span&gt; &lt;span class="n"&gt;feeds&lt;/span&gt;
+
+&lt;span class="n"&gt;This&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;the&lt;/span&gt; &lt;span class="n"&gt;content&lt;/span&gt; &lt;span class="n"&gt;of&lt;/span&gt; &lt;span class="n"&gt;my&lt;/span&gt; &lt;span class="kd"&gt;super&lt;/span&gt; &lt;span class="n"&gt;blog&lt;/span&gt; &lt;span class="n"&gt;post&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;早速ビルドしてみる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;fab build
+&lt;span class="nv"&gt;$ &lt;/span&gt;fab reserve
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;ブラウザから &lt;code&gt;localhost:8000&lt;/code&gt; を開く。&lt;/p&gt;
+&lt;p&gt;Slug から URL が生成されるらしい。Slug を削ると Title を元に URL を生成するらしいのだが、これが日本語を中国語の翻訳機にかけたような謎の URL になる。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;pelican で作るブログ&lt;/p&gt;
+&lt;p&gt;http://localhost:8000/pelican-dezuo-ruburogu.html&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;pelican dezuo ruburogu とは一体…&lt;/p&gt;
+&lt;p&gt;ブログなら URL は &lt;code&gt;{year}/{month}/{date}/{slug}.html&lt;/code&gt; という構成にしたいですね。&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="http://docs.getpelican.com/en/latest/settings.html"&gt;Settings — Pelican 3.3.1.dev documentation&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;上の URL settings を見ればいいのだがちょっと把握しづらい。&lt;/p&gt;
+&lt;p&gt;とりあえず &lt;code&gt;pelicanconf.py&lt;/code&gt; に以下を追加したらなんとなくいい感じになった。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ARTICLE_URL&lt;/span&gt;     &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;posts/{date:%Y}/{date:%m}/{date:&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s"&gt;}/{slug}/&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;ARTICLE_SAVE_AS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;posts/{date:%Y}/{date:%m}/{date:&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s"&gt;}/{slug}/index.html&amp;#39;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;</summary><category term="pelican"></category><category term="publishing"></category></entry></feed>
