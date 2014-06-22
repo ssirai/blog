@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+        <meta charset="utf-8" />
+        <title>גולם壱佰 - pelican</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+
+        <!--[if IE]>
+            <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">גולם壱佰 </a></h1>
+                <nav><ul>
+                    <li><a href="/category/python.html">Python</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/posts/2014/06/22/my-blog-post-using-pelican/">pelican でブログを作る</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2014-06-22T21:00:00">
+                日 22 6月 2014
+        </abbr>
+
+        <address class="vcard author">
+                By <a class="url fn" href="/author/ssirai.html">ssirai</a>
+        </address>
+<p>In <a href="/category/python.html">Python</a>. </p>
+<p>tags: <a href="/tag/pelican.html">pelican</a><a href="/tag/publishing.html">publishing</a></p>
+</footer><!-- /.post-info --><p>pelican でブログ作っているので手短にやったことを書く。このポスト自体が pelican のテストなのであまりちゃんと解説書く気ないですスイマセン。</p>
+<h2>インストール</h2>
+<p>まず github でリポジトリを作り <code>gh-pages</code> ブランチを作る。</p>
+<div class="highlight"><pre><span class="nv">$ </span>git clone https://github.com/<span class="o">{</span>username<span class="o">}</span>/blog.git
+<span class="nv">$ </span><span class="nb">cd </span>blog
+</pre></div>
+
+
+<p>python 3.x のサポートが微妙なので（Fabric がインストールできない） 2.7 に切り替える。</p>
+<div class="highlight"><pre><span class="nv">$ </span>pyenv <span class="nb">local </span>2.7.6
+</pre></div>
+
+
+<p>必要なものをインストール。</p>
+<div class="highlight"><pre><span class="nv">$ </span>pip install pelican
+<span class="nv">$ </span>pip install Fabric
+<span class="nv">$ </span>pip install Markdown
+<span class="nv">$ </span>pip install ghp-import
+</pre></div>
+
+
+<p><code>pelican-quickstart</code> して適当に質問に答えると色々ファイルが生成される。</p>
+<h2>日記を書く</h2>
+<p><code>content</code> 以下に Markdown 形式で日記を書く。書式は以下からコピペして書き換える。</p>
+<blockquote>
+<p><a href="http://docs.getpelican.com/en/3.3.0/getting_started.html#kickstart-your-site">Getting started — Pelican 3.3.0 documentation</a></p>
+</blockquote>
+<div class="highlight"><pre><span class="n">Title</span><span class="o">:</span> <span class="n">My</span> <span class="kd">super</span> <span class="n">title</span>
+<span class="n">Date</span><span class="o">:</span> <span class="mi">2010</span><span class="o">-</span><span class="mi">12</span><span class="o">-</span><span class="mi">03</span> <span class="mi">10</span><span class="o">:</span><span class="mi">20</span>
+<span class="n">Category</span><span class="o">:</span> <span class="n">Python</span>
+<span class="n">Tags</span><span class="o">:</span> <span class="n">pelican</span><span class="o">,</span> <span class="n">publishing</span>
+<span class="n">Slug</span><span class="o">:</span> <span class="n">my</span><span class="o">-</span><span class="kd">super</span><span class="o">-</span><span class="n">post</span>
+<span class="n">Author</span><span class="o">:</span> <span class="n">Alexis</span> <span class="n">Metaireau</span>
+<span class="n">Summary</span><span class="o">:</span> <span class="n">Short</span> <span class="n">version</span> <span class="k">for</span> <span class="n">index</span> <span class="n">and</span> <span class="n">feeds</span>
+
+<span class="n">This</span> <span class="k">is</span> <span class="n">the</span> <span class="n">content</span> <span class="n">of</span> <span class="n">my</span> <span class="kd">super</span> <span class="n">blog</span> <span class="n">post</span><span class="o">.</span>
+</pre></div>
+
+
+<p>早速ビルドしてみる。</p>
+<div class="highlight"><pre><span class="nv">$ </span>fab build
+<span class="nv">$ </span>fab reserve
+</pre></div>
+
+
+<p>ブラウザから <code>localhost:8000</code> を開く。</p>
+<p>Slug から URL が生成されるらしい。Slug を削ると Title を元に URL を生成するらしいのだが、これが日本語を中国語の翻訳機にかけたような謎の URL になる。</p>
+<blockquote>
+<p>pelican で作るブログ</p>
+<p>http://localhost:8000/pelican-dezuo-ruburogu.html</p>
+</blockquote>
+<p>pelican dezuo ruburogu とは一体…</p>
+<p>ブログなら URL は <code>{year}/{month}/{date}/{slug}.html</code> という構成にしたいですね。</p>
+<blockquote>
+<p><a href="http://docs.getpelican.com/en/latest/settings.html">Settings — Pelican 3.3.1.dev documentation</a></p>
+</blockquote>
+<p>上の URL settings を見ればいいのだがちょっと把握しづらい。</p>
+<p>とりあえず <code>pelicanconf.py</code> に以下を追加したらなんとなくいい感じになった。</p>
+<div class="highlight"><pre><span class="n">ARTICLE_URL</span>     <span class="o">=</span> <span class="s">&#39;posts/{date:%Y}/{date:%m}/{date:</span><span class="si">%d</span><span class="s">}/{slug}/&#39;</span>
+<span class="n">ARTICLE_SAVE_AS</span> <span class="o">=</span> <span class="s">&#39;posts/{date:%Y}/{date:%m}/{date:</span><span class="si">%d</span><span class="s">}/{slug}/index.html&#39;</span>
+</pre></div>                </article>
+<p class="paginator">
+    Page 1 / 1
+</p>
+            </aside><!-- /#featured -->
+            </ol><!-- /#posts-list -->
+            </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>blogroll</h2>
+                        <ul>
+                            <li><a href="archives.html">Archive</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
