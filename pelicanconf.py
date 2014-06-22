@@ -4,9 +4,9 @@ from __future__ import unicode_literals
 
 AUTHOR = 'ssirai'
 SITENAME = 'גולם壱佰'
-SITEURL = ''
+SITEURL = 'http://ssirai.github.io/blog'
 
-TIMEZONE = 'Japan/Osaka'
+# TIMEZONE = 'Japan/Osaka'
 
 DEFAULT_LANG = 'ja'
 

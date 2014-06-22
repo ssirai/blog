@@ -51,10 +51,11 @@ def cf_upload():
 
 @hosts(production)
 def publish():
-    local('pelican -s publishconf.py')
-    project.rsync_project(
-        remote_dir=dest_path,
-        exclude=".DS_Store",
-        local_dir=DEPLOY_PATH.rstrip('/') + '/',
-        delete=True
-    )
+    local('pelican content -o output -s publishconf.py')
+    local('ghp-import output && git push origin gh-pages')
+    # project.rsync_project(
+    #     remote_dir=dest_path,
+    #     exclude=".DS_Store",
+    #     local_dir=DEPLOY_PATH.rstrip('/') + '/',
+    #     delete=True
+    # )
