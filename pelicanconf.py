@@ -6,15 +6,14 @@ import os
 
 AUTHOR = 'ssirai'
 SITENAME = 'גולם壱佰'
-# SITEURL = 'http://ssirai.github.io/blog'
 
 TIMEZONE = 'Asia/Tokyo'
 
 DEFAULT_LANG = 'ja'
 
 # Feed generation is usually not desired when developing
-FEED_ALL_ATOM = None # 'feeds/all.rss.xml'
-CATEGORY_FEED_ATOM = None # 'feeds/%s.rss.xml'
+FEED_ALL_ATOM = None
+CATEGORY_FEED_ATOM = None
 TRANSLATION_FEED_ATOM = None
 
 # Blogroll
