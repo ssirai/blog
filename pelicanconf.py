@@ -18,7 +18,7 @@ CATEGORY_FEED_ATOM = None # 'feeds/%s.rss.xml'
 TRANSLATION_FEED_ATOM = None
 
 # Blogroll
-LINKS =  (('Archive', 'archives.html'),)
+LINKS =  (('Archive', '/archives.html'),)
 
 path = os.path.join(os.environ.get('HOME'), 'dev/projects')
 THEME = '%s/pelican-themes/pelipress' % path
