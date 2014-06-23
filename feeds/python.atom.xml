@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>גולם壱佰</title><link href="http://ssirai.github.io/blog/" rel="alternate"></link><link href="http://ssirai.github.io/blog/feeds/python.atom.xml" rel="self"></link><id>http://ssirai.github.io/blog/</id><updated>2014-06-22T21:00:00Z</updated><entry><title>pelican でブログを作る</title><link href="http://ssirai.github.io/blog/posts/2014/06/22/my-blog-post-using-pelican/" rel="alternate"></link><updated>2014-06-22T21:00:00Z</updated><author><name>ssirai</name></author><id>tag:ssirai.github.io/blog,2014-06-22:posts/2014/06/22/my-blog-post-using-pelican/</id><summary type="html">&lt;p&gt;pelican でブログ作っているので手短にやったことを書く。このポスト自体が pelican のテストなのであまりちゃんと解説書く気ないですスイマセン。&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>גולם壱佰</title><link href="http://ssirai.github.io/blog/" rel="alternate"></link><link href="http://ssirai.github.io/blog/feeds/python.atom.xml" rel="self"></link><id>http://ssirai.github.io/blog/</id><updated>2014-06-22T21:00:00+09:00</updated><entry><title>pelican でブログを作る</title><link href="http://ssirai.github.io/blog/posts/2014/06/22/my-blog-post-using-pelican/" rel="alternate"></link><updated>2014-06-22T21:00:00+09:00</updated><author><name>ssirai</name></author><id>tag:ssirai.github.io/blog,2014-06-22:posts/2014/06/22/my-blog-post-using-pelican/</id><summary type="html">&lt;p&gt;pelican でブログ作っているので手短にやったことを書く。このポスト自体が pelican のテストなのであまりちゃんと解説書く気ないですスイマセン。&lt;/p&gt;
 &lt;h2&gt;インストール&lt;/h2&gt;
 &lt;p&gt;まず github でリポジトリを作り &lt;code&gt;gh-pages&lt;/code&gt; ブランチを作る。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;git clone https://github.com/&lt;span class="o"&gt;{&lt;/span&gt;username&lt;span class="o"&gt;}&lt;/span&gt;/blog.git
@@ -59,4 +59,276 @@
 &lt;p&gt;とりあえず &lt;code&gt;pelicanconf.py&lt;/code&gt; に以下を追加したらなんとなくいい感じになった。&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;ARTICLE_URL&lt;/span&gt;     &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;posts/{date:%Y}/{date:%m}/{date:&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s"&gt;}/{slug}/&amp;#39;&lt;/span&gt;
 &lt;span class="n"&gt;ARTICLE_SAVE_AS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;posts/{date:%Y}/{date:%m}/{date:&lt;/span&gt;&lt;span class="si"&gt;%d&lt;/span&gt;&lt;span class="s"&gt;}/{slug}/index.html&amp;#39;&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;</summary><category term="pelican"></category><category term="publishing"></category></entry></feed>
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h2&gt;liquid tag による IPython Notebook の挿入&lt;/h2&gt;
+&lt;p&gt;まず数式が使えないので &lt;code&gt;pelican-plugins&lt;/code&gt; から &lt;code&gt;latex&lt;/code&gt; パッケージを入れておく。これは &lt;code&gt;mathjax&lt;/code&gt; の別名。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="nv"&gt;$ &lt;/span&gt;git clone https://github.com/getpelican/pelican-plugins
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;conf ファイルに以下を記述する（pelican から実行できれば名前は何でもいいっぽい？ &lt;code&gt;pelican-quickstart&lt;/code&gt; から作った場合デフォルトは &lt;code&gt;pelicanconf.py&lt;/code&gt; と &lt;code&gt;publishconf.py&lt;/code&gt; のどちらか）。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;PLUGIN_PATH&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;/path/to/pelican-plugins&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;PLUGINS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;liquid_tags.notebook&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;#39;latex&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;code&gt;/path/to/&lt;/code&gt; は絶対パスで。&lt;code&gt;~&lt;/code&gt; をなんとなしに使ったらダメだった。そりゃそうか。&lt;/p&gt;
+&lt;p&gt;数式はこれだけの設定でよい。&lt;code&gt;liquid_tags.notebook&lt;/code&gt; というプラグインで IPython Notebook を記事の好きな場所に挟み込むことができるようになる。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="o"&gt;%&lt;/span&gt; &lt;span class="n"&gt;notebook&lt;/span&gt; &lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ipynb&lt;/span&gt; &lt;span class="o"&gt;%&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;注意点は notebook を置く場所である。デフォルトでは &lt;code&gt;content/&lt;/code&gt; 以下に &lt;code&gt;notebooks/&lt;/code&gt; というフォルダを作ってそこに &lt;code&gt;filename.ipynb&lt;/code&gt; を置く必要がある。そういう規約である。&lt;code&gt;NOTEBOOK_DIR&lt;/code&gt; を変えればデフォルトの設定は変更できるが特に不満はないしそのままにしておく。&lt;/p&gt;
+&lt;p&gt;最後のステップとして &lt;code&gt;_nb_header.html&lt;/code&gt; の設定をする必要がある。&lt;code&gt;_nb_header.html&lt;/code&gt; は &lt;code&gt;liquid_tags.notebook&lt;/code&gt; を使っているとpelican プロジェクトのルートフォルダに自動で生成される。これを挿入すると notebook の表示が奇麗になる。&lt;/p&gt;
+&lt;p&gt;まず &lt;code&gt;theme&lt;/code&gt; の &lt;code&gt;template&lt;/code&gt; に次のような文を書く。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nv"&gt;EXTRA_HEADER&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{{&lt;/span&gt; &lt;span class="nv"&gt;EXTRA_HEADER&lt;/span&gt; &lt;span class="cp"&gt;}}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;span class="cp"&gt;{%&lt;/span&gt; &lt;span class="k"&gt;endif&lt;/span&gt; &lt;span class="cp"&gt;%}&lt;/span&gt;&lt;span class="x"&gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;が、自分は &lt;code&gt;pelipress&lt;/code&gt; テーマを使っておりそこには既に書かれていたので必要なかった。&lt;/p&gt;
+&lt;p&gt;conf に &lt;code&gt;_nb_header.html&lt;/code&gt; を読みこむ設定を書く。&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span class="n"&gt;EXTRA_HEADER&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;_nb_header.html&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;utf-8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;これにて準備は完成！&lt;/p&gt;
+&lt;p&gt;以前作ったノートを挟んでおく。&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;IJulia&lt;/code&gt; なのだが構文がカラーリングされておりませんな。&lt;/p&gt;
+&lt;p&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;h1 id="-"&gt;ランダムサーチ&lt;/h1&gt;
+&lt;blockquote&gt;
+&lt;p&gt;&lt;a href="http://www.cleveralgorithms.com/"&gt;Clever Algorithms: Nature-Inspired Programming Recipes&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This work is licensed under a &lt;a href="http://creativecommons.org/licenses/by-nc-sa/2.5/au/"&gt;CC BY-NC-SA 2.5 AU&lt;/a&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;ランダムサーチは確率的アルゴリズムのなかでも一番単純なものである．&lt;/p&gt;
+&lt;p&gt;数学的には解に収束性があるかなどを考えるらしいので簡単というわけではないらしいが，プログラムとして書くだけならとても簡単である．またランダムサーチは局所探索法や山登り法といったよりよい手法と組み合わせるための基本的な手法である．&lt;/p&gt;
+&lt;h2 id="-"&gt;実例&lt;/h2&gt;
+&lt;p&gt;$ n = 2 $ における $ f = \sum_{i=1}^{n} x_i^2, -5.0 \leq x_i \leq 5.0 $ の最小値 $ \min f(x) $ を求める．パラボラ放物線の底を求める問題に過ぎないので数値的に解く意義は特にない．&lt;/p&gt;
+&lt;p&gt;まず位置ベクトルを受け取ったらコストを返す目的関数を定義する．&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;
+In&amp;nbsp;[1]:
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="n"&gt;objective_function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sum&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;map&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="o"&gt;-&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="o"&gt;^&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;
+    Out[1]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_pyout"&gt;
+&lt;pre&gt;
+objective_function (generic function with 1 method)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;続いて探索区間を受け取って（この問題では &lt;code&gt;[-5 5; -5 5]&lt;/code&gt;），ランダムな位置ベクトルを返す関数を定義する．区間 [-5, 5] からランダムに 2 回選ぶだけなので今回は難しくないが，選ばれる点に偏りが出ていないかは常に考慮するべきである．&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;
+In&amp;nbsp;[2]:
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="nf"&gt; random_vector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;minmax&lt;/span&gt; &lt;span class="p"&gt;::&lt;/span&gt; &lt;span class="n"&gt;Array&lt;/span&gt;&lt;span class="p"&gt;{(&lt;/span&gt;&lt;span class="kt"&gt;Float64&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;Float64&lt;/span&gt;&lt;span class="p"&gt;)})&lt;/span&gt;
+  &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;mn&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mx&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;mn&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="n"&gt;rand&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;mn&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mx&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;minmax&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;  &lt;span class="c"&gt;# rand() は区間 [0, 1) の一様乱数を返す (Float64)&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;
+    Out[2]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_pyout"&gt;
+&lt;pre&gt;
+random_vector (generic function with 1 method)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;上2つの補助関数を用いて探索関数を記述すればよい．&lt;/p&gt;
+&lt;p&gt;探索関数 &lt;code&gt;search&lt;/code&gt; は探索区間の配列と探索の試行回数を受け取り，返り値は最善の結果（コストとベクトルの情報）とする．&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;
+In&amp;nbsp;[3]:
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="k"&gt;function&lt;/span&gt;&lt;span class="nf"&gt; search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;search_space&lt;/span&gt; &lt;span class="p"&gt;::&lt;/span&gt; &lt;span class="n"&gt;Array&lt;/span&gt;&lt;span class="p"&gt;{(&lt;/span&gt;&lt;span class="kt"&gt;Float64&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="kt"&gt;Float64&lt;/span&gt;&lt;span class="p"&gt;)},&lt;/span&gt; &lt;span class="n"&gt;max_iter&lt;/span&gt; &lt;span class="p"&gt;::&lt;/span&gt; &lt;span class="kt"&gt;Int&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="n"&gt;best&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Dict&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+  &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;_&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;max_iter&lt;/span&gt;
+    &lt;span class="n"&gt;candidate&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Dict&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;candidate&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;random_vector&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;search_space&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;candidate&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="n"&gt;cost&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;   &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;objective_function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;candidate&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="n"&gt;vector&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="n"&gt;best&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="o"&gt;!&lt;/span&gt;&lt;span class="n"&gt;isempty&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;best&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class="n"&gt;best&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="n"&gt;cost&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="n"&gt;candidate&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="n"&gt;cost&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt; 
+           &lt;span class="n"&gt;best&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt;
+           &lt;span class="n"&gt;candidate&lt;/span&gt;
+  &lt;span class="k"&gt;end&lt;/span&gt;
+  &lt;span class="n"&gt;best&lt;/span&gt;
+&lt;span class="k"&gt;end&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt output_prompt"&gt;
+    Out[3]:&lt;/div&gt;
+
+
+&lt;div class="output_text output_subarea output_pyout"&gt;
+&lt;pre&gt;
+search (generic function with 1 method)
+&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing text_cell rendered"&gt;
+&lt;div class="prompt input_prompt"&gt;
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+&lt;div class="text_cell_render border-box-sizing rendered_html"&gt;
+&lt;p&gt;たんに書籍のRubyコードを移植しているだけなのだが，Julia特有の考察点がいくつか浮かび上がってくる．&lt;/p&gt;
+&lt;p&gt;まず引数の型を記述している．JuliaはRubyのように型を記述せずとも動くが，可能な限り書いたほうがよい．型はその関数の振る舞いを規定しているからである．型を書かないと，その関数はどんなデータ型に対しても適用される（ジェネリックな関数）．これは動作が把握しづらい．&lt;/p&gt;
+&lt;p&gt;また Julia であれば &lt;code&gt;search&lt;/code&gt; 関数をもっと短く書けるのではないだろうか．以下はシンタックスエラーで動かないが，&lt;code&gt;vector&lt;/code&gt; を内包表記で一時的に蓄えたりすることはできないのだろうか（内包表記は内部の値を書き換えてはならなかった気がするので一時変数はだめか…）．&lt;/p&gt;
+&lt;pre&gt;&lt;code class="language-julia"&gt;&lt;span class="function"&gt;&lt;span class="keyword"&gt;function&lt;/span&gt; &lt;span class="title"&gt;search&lt;/span&gt;&lt;span class="params"&gt;(search_space, max_iter)&lt;/span&gt;
+  &lt;span class="title"&gt;minimum&lt;/span&gt;&lt;span class="params"&gt;([(objective_function(vector)&lt;/span&gt;, &lt;span class="title"&gt;vector&lt;/span&gt;), &lt;span class="title"&gt;vector&lt;/span&gt; = &lt;span class="title"&gt;random_vector&lt;/span&gt;&lt;span class="params"&gt;(search_space)&lt;/span&gt; &lt;span class="title"&gt;for&lt;/span&gt; _ &lt;span class="title"&gt;in&lt;/span&gt; 1:&lt;/span&gt;max_iter])
+&lt;span class="keyword"&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;ところで，関数名 &lt;code&gt;objective_function&lt;/code&gt; や &lt;code&gt;random_vector&lt;/code&gt; もそのまま本から移植しただけであるが，Juliaでは関数名にスネークケース (名前を区切るのにアンダースコア&lt;code&gt;_&lt;/code&gt;を使うこと) は推奨されていない．スネークケースで名前が区切られている場合，往々にして処理単位が 1 つに絞れていないということが起こっているので非推奨とされている．&lt;code&gt;objective_function&lt;/code&gt; や &lt;code&gt;random_vector&lt;/code&gt; はあまりよい関数名ではないかもしれないが，処理単位としてはこれ以上ないくらい小さく絞られていると思うのでこのままでよいだろう．&lt;/p&gt;
+&lt;p&gt;では最後に，実際に探索を行ってみよう．&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class="cell border-box-sizing code_cell rendered"&gt;
+&lt;div class="input"&gt;
+&lt;div class="prompt input_prompt"&gt;
+In&amp;nbsp;[4]:
+&lt;/div&gt;
+&lt;div class="inner_cell"&gt;
+    &lt;div class="input_area"&gt;
+&lt;div class="highlight-ipynb"&gt;&lt;pre class="ipynb"&gt;&lt;span class="n"&gt;search_space&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;5.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;5.0&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mf"&gt;5.0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mf"&gt;5.0&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+&lt;span class="n"&gt;max_iter&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1000&lt;/span&gt;
+&lt;span class="n"&gt;best&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;search&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;search_space&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;max_iter&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;println&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;Done. Best Solution: c=&lt;/span&gt;&lt;span class="si"&gt;$&lt;/span&gt;&lt;span class="s"&gt;(best[:cost]), v=&lt;/span&gt;&lt;span class="si"&gt;$&lt;/span&gt;&lt;span class="s"&gt;(best[:vector])&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class="output_wrapper"&gt;
+&lt;div class="output"&gt;
+
+
+&lt;div class="output_area"&gt;&lt;div class="prompt"&gt;&lt;/div&gt;
+&lt;div class="output_subarea output_stream output_stdout output_text"&gt;
+&lt;pre&gt;
+Done. Best Solution: c=0.005268822282496379, v=[0.010556057732317825,-0.07181498400506925]
+
+&lt;/pre&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;/div&gt;&lt;/p&gt;&lt;script type= "text/javascript"&gt;
+    if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+        var mathjaxscript = document.createElement('script');
+        mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+        mathjaxscript.type = 'text/javascript';
+        mathjaxscript.src = 'https:' == document.location.protocol
+                ? 'https://c328740.ssl.cf1.rackcdn.com/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'
+                : 'http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+        mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+            "MathJax.Hub.Config({" +
+            "    config: ['MMLorHTML.js']," +
+            "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+            "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+            "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+            "    displayAlign: 'center'," +
+            "    displayIndent: '0em'," +
+            "    showMathMenu: true," +
+            "    tex2jax: { " +
+            "        inlineMath: [ ['$','$'] ], " +
+            "        displayMath: [ ['$$','$$'] ]," +
+            "        processEscapes: true," +
+            "        preview: 'TeX'," +
+            "    }, " +
+            "    'HTML-CSS': { " +
+            "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+            "    } " +
+            "}); ";
+        (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+    }
+&lt;/script&gt;
+</summary></entry></feed>
