@@ -12,6 +12,8 @@ from pelicanconf import *
 
 SITEURL = 'http://ssirai.github.io/blog'
 
+LINKS = (('Archive', '/blog/archives.html'),)
+
 RELATIVE_URLS = False
 
 FEED_ALL_ATOM = 'feeds/all.atom.xml'
