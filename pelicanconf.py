@@ -2,11 +2,13 @@
 # -*- coding: utf-8 -*- #
 from __future__ import unicode_literals
 
+import os
+
 AUTHOR = 'ssirai'
 SITENAME = 'גולם壱佰'
-SITEURL = 'http://ssirai.github.io/blog'
+# SITEURL = 'http://ssirai.github.io/blog'
 
-# TIMEZONE = 'Japan/Osaka'
+TIMEZONE = 'Asia/Tokyo'
 
 DEFAULT_LANG = 'ja'
 
@@ -17,18 +19,20 @@ TRANSLATION_FEED_ATOM = None
 
 # Blogroll
 LINKS =  (('Archive', 'archives.html'),)
-REVERSE_ARCHIVE_ORDER = 1
-DIRECT_TEMPLATES = ('index', 'tags', 'categories', 'archives')
 
-# Social widget
-# SOCIAL = (('github', 'https://github.com/ssirai'))
+path = os.path.join(os.environ.get('HOME'), 'dev/projects')
+THEME = '%s/pelican-themes/pelipress' % path
+
+REVERSE_ARCHIVE_ORDER = 1
+DIRECT_TEMPLATES = ('index', 'categories', 'archives')
+
+PLUGIN_PATH = '%s/pelican-plugins' % path
+PLUGINS = ['liquid_tags.notebook', 'latex']
+EXTRA_HEADER = open('_nb_header.html').read().decode('utf-8')
 
 DEFAULT_PAGINATION = 10
 
 DEFAUT_DATE_FORMAT = '%Y %B %d'
-
-# Uncomment following line if you want document-relative URLs when developing
-#RELATIVE_URLS = True
 
 ARTICLE_URL     = 'posts/{date:%Y}/{date:%m}/{date:%d}/{slug}/'
 ARTICLE_SAVE_AS = 'posts/{date:%Y}/{date:%m}/{date:%d}/{slug}/index.html'
